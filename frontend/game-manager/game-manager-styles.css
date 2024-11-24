@@ -1,0 +1,264 @@
+:root {
+  --explorer-green: #2ecc71;
+  --explorer-brown: #8b4513;
+  --explorer-sand: #f4d03f;
+  --explorer-sky: #3498db;
+  --explorer-danger: #e74c3c;
+  --explorer-light: #ecf0f1;
+  --explorer-dark: #2c3e50;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Pretendard', sans-serif;
+  background: linear-gradient(
+    135deg,
+    var(--explorer-light),
+    var(--explorer-sky)
+  );
+  height: 100vh;
+  color: var(--explorer-dark);
+  margin: 0;
+  overflow: hidden;
+}
+
+.explorer-wrap {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.explorer-header {
+  text-align: center;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.game-setup {
+  padding: 1rem;
+}
+
+.setup-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 0 auto;
+}
+
+.squad-box {
+  text-align: center;
+}
+
+.squad-box h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: var(--explorer-dark);
+}
+
+select {
+  background: white;
+  border: 2px solid var(--explorer-green);
+  padding: 0.8rem 1.5rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  width: 250px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+select:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(46, 204, 113, 0.2);
+}
+
+.game-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.adventure-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+.explorer-scene {
+  display: flex;
+  justify-content: center;
+  margin: 1rem auto;
+  position: relative;
+  z-index: 1;
+}
+
+.explorer-avatar {
+  min-height: 250px;
+  background: transparent;
+}
+
+.frame {
+  stroke: var(--explorer-brown);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.avatar-part {
+  fill: none;
+  stroke: var(--explorer-dark);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  display: none;
+}
+
+.mission-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.attempts-box {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1rem 2rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.attempted-display {
+  font-size: 1.5rem;
+  letter-spacing: 0.5rem;
+  color: var(--explorer-danger);
+  min-height: 2rem;
+}
+
+.word-zone {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.letter-tile {
+  width: 50px;
+  height: 50px;
+  border-bottom: 3px solid var(--explorer-sky);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.result-screen {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+.result-content {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+  width: auto;
+  max-width: 80%;
+  margin-top: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.result-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.mission-btn {
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
+  background: var(--explorer-green);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mission-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+}
+
+.alert-bubble {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--explorer-danger);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  animation: floatUp 0.3s ease-out;
+}
+
+@keyframes floatUp {
+  from {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .explorer-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .setup-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  select {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .letter-tile {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200" height="250" viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+    <!-- 받침대 (항상 표시) -->
+    <line x1="20" y1="230" x2="100" y2="230" stroke="#8b4513" stroke-width="4" stroke-linecap="round" />
+    <line x1="60" y1="20" x2="60" y2="230" stroke="#8b4513" stroke-width="4" stroke-linecap="round" />
+    <line x1="60" y1="20" x2="140" y2="20" stroke="#8b4513" stroke-width="4" stroke-linecap="round" />
+    <line x1="140" y1="20" x2="140" y2="50" stroke="#8b4513" stroke-width="4" stroke-linecap="round" />
+    
+    <!-- 실수 1회: 밧줄 -->
+    <line x1="140" y1="50" x2="140" y2="70" stroke="#2c3e50" stroke-width="3" stroke-linecap="round" />
+    
+    <!-- 실수 2회: 머리 -->
+    <circle cx="140" cy="85" r="15" fill="none" stroke="#2c3e50" stroke-width="3" stroke-linecap="round" />
+    
+    <!-- 실수 3회: 몸통 -->
+    <line x1="140" y1="100" x2="140" y2="150" stroke="#2c3e50" stroke-width="3" stroke-linecap="round" />
+    
+    <!-- 실수 4회: 왼팔 -->
+    <line x1="140" y1="120" x2="120" y2="140" stroke="#2c3e50" stroke-width="3" stroke-linecap="round" />
+    
+    <!-- 실수 5회: 오른팔 -->
+    <line x1="140" y1="120" x2="160" y2="140" stroke="#2c3e50" stroke-width="3" stroke-linecap="round" />
+    
+    <!-- 실수 6회: 왼다리 -->
+    <line x1="140" y1="150" x2="120" y2="180" stroke="#2c3e50" stroke-width="3" stroke-linecap="round" />
+    
+    <!-- 실수 7회: 오른다리 -->
+    <line x1="140" y1="150" x2="160" y2="180" stroke="#2c3e50" stroke-width="3" stroke-linecap="round" />
+    
+    <!-- 실수 8회: 왼쪽 눈 -->
+    <line x1="133" y1="80" x2="137" y2="83" stroke="#2c3e50" stroke-width="2" stroke-linecap="round" />
+    <line x1="137" y1="83" x2="133" y2="86" stroke="#2c3e50" stroke-width="2" stroke-linecap="round" />
+    
+    <!-- 실수 9회: 오른쪽 눈 -->
+    <line x1="143" y1="80" x2="147" y2="83" stroke="#2c3e50" stroke-width="2" stroke-linecap="round" />
+    <line x1="147" y1="83" x2="143" y2="86" stroke="#2c3e50" stroke-width="2" stroke-linecap="round" />
+    
+    <!-- 실수 10회: 입 -->
+    <path d="M135 90 Q140 88 145 90" stroke="#2c3e50" stroke-width="2" fill="none" stroke-linecap="round" />
+</svg>

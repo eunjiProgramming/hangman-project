@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word Explorer Admin</title>
+    <link rel="stylesheet" href="admin-admin-styles.css" />
+  </head>
+  <body>
+    <div class="admin-wrap">
+      <header class="admin-header">
+        <h1>Word Explorer Admin</h1>
+        <div class="user-info">
+          <span id="currentUser">Role: <span id="userRole">ADMIN</span></span>
+          <button id="logoutBtn" class="btn">Logout</button>
+        </div>
+      </header>
+
+      <main class="admin-content">
+        <div class="tab-navigation">
+          <button
+            class="tab-btn active"
+            data-tab="words"
+            aria-label="Words Management"
+          >
+            Words Management
+          </button>
+          <button
+            class="tab-btn"
+            data-tab="users"
+            aria-label="Users Management"
+          >
+            Users Management
+          </button>
+          <button
+            class="tab-btn"
+            data-tab="classes"
+            aria-label="Classes Management"
+          >
+            Classes Management
+          </button>
+          <button
+            class="tab-btn"
+            data-tab="students"
+            aria-label="Students Management"
+          >
+            Students Management
+          </button>
+        </div>
+
+        <!-- Words Management Section -->
+        <section id="wordsSection" class="management-section active">
+          <div class="control-panel">
+            <div class="filters">
+              <select
+                id="classFilter"
+                class="filter-select"
+                aria-label="Filter by class"
+              >
+                <option value="">All Classes</option>
+              </select>
+              <select
+                id="mentorFilter"
+                class="filter-select"
+                aria-label="Filter by mentor"
+              >
+                <option value="">All Mentors</option>
+              </select>
+            </div>
+            <div class="action-buttons">
+              <button id="addWordBtn" class="btn btn-primary">
+                Add New Word
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="words-table">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Word</th>
+                  <th scope="col">Class</th>
+                  <th scope="col">Mentor</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="wordsTableBody">
+                <!-- Words will be populated here -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Users Management Section -->
+        <section id="usersSection" class="management-section">
+          <div class="control-panel">
+            <div class="action-buttons">
+              <button id="registerUserBtn" class="btn btn-primary">
+                Register User
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="users-table">
+              <thead>
+                <tr>
+                  <th scope="col">Username</th>
+                  <th scope="col">Role</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody">
+                <!-- Users will be populated here -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Classes Management Section -->
+        <section id="classesSection" class="management-section">
+          <div class="control-panel">
+            <div class="action-buttons">
+              <button id="addClassBtn" class="btn btn-primary">
+                Add New Class
+              </button>
+              <button id="assignTeacherBtn" class="btn btn-secondary">
+                Assign Teacher
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="classes-table">
+              <thead>
+                <tr>
+                  <th scope="col">Class Name</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Assigned Teachers</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="classesTableBody">
+                <!-- Classes will be populated here -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Students Management Section -->
+        <section id="studentsSection" class="management-section">
+          <div class="control-panel">
+            <div class="filters">
+              <select
+                id="studentClassFilter"
+                class="filter-select"
+                aria-label="Filter students by class"
+              >
+                <option value="">All Classes</option>
+              </select>
+              <select
+                id="studentTeacherFilter"
+                class="filter-select"
+                aria-label="Filter students by teacher"
+              >
+                <option value="">All Teachers</option>
+              </select>
+            </div>
+            <div class="action-buttons">
+              <button id="addStudentBtn" class="btn btn-primary">
+                Add New Student
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="students-table">
+              <thead>
+                <tr>
+                  <th scope="col">Username</th>
+                  <th scope="col">Class</th>
+                  <th scope="col">Teacher</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="studentsTableBody">
+                <!-- Students will be populated here -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+
+      <!-- Modals -->
+      <!-- Word Modal -->
+      <div id="wordModal" class="modal hidden" aria-labelledby="wordModalTitle">
+        <div class="modal-content">
+          <button class="modal-close" aria-label="Close modal">&times;</button>
+          <h2 id="wordModalTitle">Add New Word</h2>
+          <form id="wordForm">
+            <input type="hidden" id="wordId" />
+            <div class="form-group">
+              <label for="wordInput">Word:</label>
+              <input type="text" id="wordInput" required />
+            </div>
+            <div class="form-group">
+              <label for="classSelect">Class:</label>
+              <select id="classSelect" required>
+                <!-- Classes will be populated here -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="mentorSelect">Mentor:</label>
+              <select id="mentorSelect" required>
+                <!-- Teachers will be populated here -->
+              </select>
+            </div>
+            <div class="modal-buttons">
+              <button type="submit" class="btn btn-primary">Save</button>
+              <button
+                type="button"
+                class="btn"
+                onclick="adminPanel.closeWordModal()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- User Modal -->
+      <div id="userModal" class="modal hidden" aria-labelledby="userModalTitle">
+        <div class="modal-content">
+          <button class="modal-close" aria-label="Close modal">&times;</button>
+          <h2 id="userModalTitle">Register New User</h2>
+          <form id="userForm">
+            <input type="hidden" id="userId" />
+            <div class="form-group">
+              <label for="username">Username:</label>
+              <input type="text" id="username" required minlength="3" />
+            </div>
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input type="password" id="password" />
+              <small
+                >(Leave empty to keep existing password when editing)</small
+              >
+            </div>
+            <div class="form-group">
+              <label for="role">Role:</label>
+              <select id="role" required>
+                <option value="USER">Student</option>
+                <option value="MANAGER">Teacher</option>
+                <option value="ADMIN">Admin</option>
+              </select>
+            </div>
+            <div class="modal-buttons">
+              <button type="submit" class="btn btn-primary">Save</button>
+              <button
+                type="button"
+                class="btn"
+                onclick="adminPanel.closeUserModal()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Class Modal -->
+      <div
+        id="classModal"
+        class="modal hidden"
+        aria-labelledby="classModalTitle"
+      >
+        <div class="modal-content">
+          <button class="modal-close" aria-label="Close modal">&times;</button>
+          <h2 id="classModalTitle">Add New Class</h2>
+          <form id="classForm">
+            <input type="hidden" id="classId" />
+            <div class="form-group">
+              <label for="className">Class Name:</label>
+              <input type="text" id="className" required minlength="2" />
+            </div>
+            <div class="form-group">
+              <label for="classDescription">Description:</label>
+              <textarea id="classDescription" required></textarea>
+            </div>
+            <div class="modal-buttons">
+              <button type="submit" class="btn btn-primary">Save</button>
+              <button
+                type="button"
+                class="btn"
+                onclick="adminPanel.closeClassModal()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Teacher Assignment Modal -->
+      <div id="teacherAssignModal" class="modal hidden">
+        <div class="modal-content">
+          <button class="modal-close" aria-label="Close modal">&times;</button>
+          <h2>Assign Teacher to Class</h2>
+          <form id="teacherAssignForm">
+            <div class="form-group">
+              <label for="teacherSelect">Select Teacher:</label>
+              <select id="teacherSelect" required>
+                <!-- Only MANAGER role users will be populated here -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="assignClassSelect">Select Class:</label>
+              <select id="assignClassSelect" required>
+                <!-- Classes will be populated here -->
+              </select>
+            </div>
+            <div class="modal-buttons">
+              <button type="submit" class="btn btn-primary">Assign</button>
+              <button
+                type="button"
+                class="btn"
+                onclick="adminPanel.closeTeacherAssignModal()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Student Modal -->
+      <div
+        id="studentModal"
+        class="modal hidden"
+        aria-labelledby="studentModalTitle"
+      >
+        <div class="modal-content">
+          <button class="modal-close" aria-label="Close modal">&times;</button>
+          <h2 id="studentModalTitle">Add New Student</h2>
+          <form id="studentForm">
+            <input type="hidden" id="studentId" />
+            <div class="form-group">
+              <label for="studentUsername">Username:</label>
+              <input type="text" id="studentUsername" required minlength="3" />
+            </div>
+            <div class="form-group">
+              <label for="studentPassword">Password:</label>
+              <input type="password" id="studentPassword" />
+              <small
+                >(Leave empty to keep existing password when editing)</small
+              >
+            </div>
+            <div class="form-group">
+              <label for="studentClassSelect">Class:</label>
+              <select
+                id="studentClassSelect"
+                required
+                onchange="adminPanel.updateTeacherOptions()"
+              >
+                <!-- Classes will be populated here -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="studentTeacherSelect">Teacher:</label>
+              <select id="studentTeacherSelect" required>
+                <!-- Teachers will be populated based on selected class -->
+              </select>
+            </div>
+            <div class="modal-buttons">
+              <button type="submit" class="btn btn-primary">Save</button>
+              <button
+                type="button"
+                class="btn"
+                onclick="adminPanel.closeStudentModal()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="admin-admin.js"></script>
+  </body>
+</html>

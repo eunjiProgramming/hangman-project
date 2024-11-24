@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word Explorer Manager</title>
+    <link rel="stylesheet" href="game-manager-styles.css" />
+  </head>
+  <body>
+    <div class="explorer-wrap">
+      <header class="explorer-header">
+        <h1>Word Explorer Manager</h1>
+        <div class="user-info">
+          <span id="currentUser">Teacher: <span id="teacherName"></span></span>
+          <button id="logoutBtn" class="btn">Logout</button>
+        </div>
+      </header>
+
+      <section class="game-setup">
+        <div class="setup-container">
+          <div class="squad-box">
+            <h2>My Class</h2>
+            <select id="classChoice">
+              <option value="">Select your class...</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <main class="game-content">
+        <section id="adventureZone" class="adventure-zone hidden">
+          <div class="explorer-scene">
+            <svg width="200" height="250" class="explorer-avatar">
+              <!-- 프레임 (받침대 부분) -->
+              <line x1="20" y1="230" x2="100" y2="230" class="frame"></line>
+              <line x1="60" y1="20" x2="60" y2="230" class="frame"></line>
+              <line x1="60" y1="20" x2="140" y2="20" class="frame"></line>
+              <line x1="140" y1="20" x2="140" y2="50" class="frame"></line>
+
+              <!-- 스테이지 1: 로프 -->
+              <line
+                x1="140"
+                y1="50"
+                x2="140"
+                y2="70"
+                class="avatar-part part1"
+              ></line>
+
+              <!-- 스테이지 2: 머리 -->
+              <circle
+                cx="140"
+                cy="85"
+                r="15"
+                class="avatar-part part2"
+              ></circle>
+
+              <!-- 스테이지 3: 몸통 -->
+              <line
+                x1="140"
+                y1="100"
+                x2="140"
+                y2="150"
+                class="avatar-part part3"
+              ></line>
+
+              <!-- 스테이지 4: 왼팔 -->
+              <line
+                x1="140"
+                y1="120"
+                x2="120"
+                y2="140"
+                class="avatar-part part4"
+              ></line>
+
+              <!-- 스테이지 5: 오른팔 -->
+              <line
+                x1="140"
+                y1="120"
+                x2="160"
+                y2="140"
+                class="avatar-part part5"
+              ></line>
+
+              <!-- 스테이지 6: 왼다리 -->
+              <line
+                x1="140"
+                y1="150"
+                x2="120"
+                y2="180"
+                class="avatar-part part6"
+              ></line>
+
+              <!-- 스테이지 7: 오른다리 -->
+              <line
+                x1="140"
+                y1="150"
+                x2="160"
+                y2="180"
+                class="avatar-part part7"
+              ></line>
+
+              <!-- 스테이지 8: 왼쪽 눈 -->
+              <line
+                x1="133"
+                y1="80"
+                x2="137"
+                y2="83"
+                class="avatar-part part8"
+              ></line>
+              <line
+                x1="137"
+                y1="83"
+                x2="133"
+                y2="86"
+                class="avatar-part part8"
+              ></line>
+
+              <!-- 스테이지 9: 오른쪽 눈 -->
+              <line
+                x1="143"
+                y1="80"
+                x2="147"
+                y2="83"
+                class="avatar-part part9"
+              ></line>
+              <line
+                x1="147"
+                y1="83"
+                x2="143"
+                y2="86"
+                class="avatar-part part9"
+              ></line>
+
+              <!-- 스테이지 10: 입 -->
+              <path d="M135 90 Q140 88 145 90" class="avatar-part part10" />
+            </svg>
+          </div>
+
+          <div class="mission-status">
+            <div class="attempts-box">
+              <h3>Wrong Letters</h3>
+              <div id="attemptedLetters" class="attempted-display"></div>
+            </div>
+            <div id="wordZone" class="word-zone"></div>
+          </div>
+        </section>
+      </main>
+
+      <div id="resultScreen" class="result-screen hidden">
+        <div class="result-content">
+          <h2 id="missionStatus"></h2>
+          <button id="nextMission" class="mission-btn">Next Mission</button>
+        </div>
+      </div>
+
+      <div id="alertBubble" class="alert-bubble hidden">
+        You already tried this letter!
+      </div>
+    </div>
+    <script src="game-manager.js"></script>
+  </body>
+</html>

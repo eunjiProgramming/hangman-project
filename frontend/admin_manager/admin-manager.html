@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word Explorer Manager</title>
+    <link rel="stylesheet" href="admin-manager-styles.css" />
+  </head>
+  <body>
+    <div class="admin-wrap">
+      <header class="admin-header">
+        <h1>Word Explorer Manager</h1>
+        <div class="user-info">
+          <span id="currentUser">Role: <span id="userRole">MANAGER</span></span>
+          <button id="logoutBtn" class="btn">Logout</button>
+        </div>
+      </header>
+
+      <main class="admin-content">
+        <!-- Words Management Section -->
+        <section id="wordsSection" class="management-section active">
+          <div class="control-panel">
+            <div class="filters">
+              <select id="classFilter" class="filter-select">
+                <option value="">My Classes</option>
+              </select>
+            </div>
+            <div class="action-buttons">
+              <button id="addWordBtn" class="btn btn-primary">
+                Add New Word
+              </button>
+            </div>
+          </div>
+
+          <div class="words-table-container">
+            <table class="words-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Word</th>
+                  <th>Class</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="wordsTableBody">
+                <!-- Words will be populated here -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+
+      <!-- Word Modal -->
+      <div id="wordModal" class="modal hidden">
+        <div class="modal-content">
+          <h2 id="wordModalTitle">Add New Word</h2>
+          <form id="wordForm">
+            <input type="hidden" id="wordId" />
+            <div class="form-group">
+              <label for="wordInput">Word:</label>
+              <input type="text" id="wordInput" required />
+            </div>
+            <div class="form-group">
+              <label for="classSelect">Class:</label>
+              <select id="classSelect" required>
+                <!-- Classes will be populated here -->
+              </select>
+            </div>
+            <div class="modal-buttons">
+              <button type="submit" class="btn btn-primary">Save</button>
+              <button
+                type="button"
+                class="btn"
+                onclick="managerPanel.closeWordModal()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="admin-manager.js"></script>
+  </body>
+</html>
