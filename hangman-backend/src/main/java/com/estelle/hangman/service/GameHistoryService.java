@@ -1,7 +1,6 @@
 package com.estelle.hangman.service;
 
 import com.estelle.hangman.domain.GameHistory;
-import com.estelle.hangman.domain.Role;
 import com.estelle.hangman.domain.User;
 import com.estelle.hangman.repository.GameHistoryRepository;
 import lombok.RequiredArgsConstructor;

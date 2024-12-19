@@ -106,29 +106,32 @@ public class GameStatisticsService {
     }
 
     private String findBestPerformingWord(Map<Word, List<GameHistory>> wordHistories) {
-        Optional<Map.Entry<Word, Double>> best = wordHistories.entrySet().stream()
-                .map(entry -> new AbstractMap.SimpleEntry<>(
+        return wordHistories.entrySet().stream()
+                .map(entry -> Map.entry(
                         entry.getKey(),
-                        entry.getValue().stream()
-                                .filter(GameHistory::getIsSuccess)
-                                .count() / (double) entry.getValue().size()
+                        calculateWordSuccessRate(entry.getValue())
                 ))
-                .max(Map.Entry.comparingByValue());
-
-        return best.map(entry -> entry.getKey().getWord()).orElse("");
+                .max(Map.Entry.comparingByValue())
+                .map(entry -> entry.getKey().getWord())
+                .orElse("");
     }
 
     private String findWorstPerformingWord(Map<Word, List<GameHistory>> wordHistories) {
-        Optional<Map.Entry<Word, Double>> worst = wordHistories.entrySet().stream()
-                .map(entry -> new AbstractMap.SimpleEntry<>(
+        return wordHistories.entrySet().stream()
+                .map(entry -> Map.entry(
                         entry.getKey(),
-                        entry.getValue().stream()
-                                .filter(GameHistory::getIsSuccess)
-                                .count() / (double) entry.getValue().size()
+                        calculateWordSuccessRate(entry.getValue())
                 ))
-                .min(Map.Entry.comparingByValue());
+                .min(Map.Entry.comparingByValue())
+                .map(entry -> entry.getKey().getWord())
+                .orElse("");
+    }
 
-        return worst.map(entry -> entry.getKey().getWord()).orElse("");
+    private double calculateWordSuccessRate(List<GameHistory> histories) {
+        if (histories.isEmpty()) return 0.0;
+        return histories.stream()
+                .filter(GameHistory::getIsSuccess)
+                .count() / (double) histories.size();
     }
 
     private Map<String, Integer> calculateTimeDistribution(List<GameHistory> histories) {
