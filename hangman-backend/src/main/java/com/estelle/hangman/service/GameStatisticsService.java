@@ -31,11 +31,55 @@ public class GameStatisticsService {
 
         List<GameHistory> histories = gameHistoryService.getHistoriesByUser(user);
 
+        return buildGameStatistics(histories, user.getRole());
+    }
+
+    public GameStatisticsResponse buildGameStatistics(List<GameHistory> histories, Role role) {
         if (histories.isEmpty()) {
             return createEmptyStatistics();
         }
 
-        // 기본 통계 계산
+        // MANAGER(선생님)인 경우 새로운 계산 방식 사용
+        if (role == Role.MANAGER) {
+            Double avgSuccess = gameHistoryRepository.calculateClassAverageByTeacherId(
+                    histories.get(0).getStudent().getTeacher().getId());
+            if (avgSuccess == null) {
+                return createEmptyStatistics();
+            }
+
+            int totalGames = histories.size();
+            double averageAttempts = calculateAverageAttempts(histories);
+
+            // 단어별 성능 분석
+            Map<Word, List<GameHistory>> wordHistories = histories.stream()
+                    .collect(Collectors.groupingBy(GameHistory::getWord));
+
+            String bestWord = findBestPerformingWord(wordHistories);
+            String worstWord = findWorstPerformingWord(wordHistories);
+            String mostMissedLetters = findMostMissedLetters(histories);
+
+            // 시간별 통계
+            Map<LocalDate, List<GameHistory>> dailyStats = histories.stream()
+                    .collect(Collectors.groupingBy(h -> h.getPlayedAt().toLocalDate()));
+
+            Map<String, Integer> timeDistribution = calculateTimeDistribution(histories);
+            Map<String, Double> progressTrend = calculateProgressTrend(dailyStats);
+
+            return GameStatisticsResponse.builder()
+                    .totalGames(totalGames)
+                    .gamesWon((int)(totalGames * avgSuccess)) // 새로운 계산 방식으로 승리 수 계산
+                    .gamesLost((int)(totalGames * (1 - avgSuccess))) // 새로운 계산 방식으로 패배 수 계산
+                    .winRate(avgSuccess * 100) // 백분율로 변환
+                    .averageAttempts(averageAttempts)
+                    .mostMissedLetters(mostMissedLetters)
+                    .bestPerformingWord(bestWord)
+                    .worstPerformingWord(worstWord)
+                    .timeDistribution(timeDistribution)
+                    .progressTrend(progressTrend)
+                    .build();
+        }
+
+        // ADMIN이나 USER의 경우 기존 계산 방식 사용
         int totalGames = histories.size();
         int gamesWon = (int) histories.stream().filter(GameHistory::getIsSuccess).count();
         int gamesLost = totalGames - gamesWon;
@@ -153,7 +197,7 @@ public class GameStatisticsService {
                 ));
     }
 
-    private GameStatisticsResponse createEmptyStatistics() {
+    public GameStatisticsResponse createEmptyStatistics() {
         return GameStatisticsResponse.builder()
                 .totalGames(0)
                 .gamesWon(0)

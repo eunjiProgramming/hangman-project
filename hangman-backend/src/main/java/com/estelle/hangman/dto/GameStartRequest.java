@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter @Setter
 public class GameStartRequest {
-    private Long courseId;   // admin, manager용 (선택적)
-    private Long teacherId;  // admin용 (선택적)
+    private Long courseId;   // 어느 반의 단어를 사용할지 (관리자/선생님용)
+    private Long teacherId;  // 어느 선생님의 단어를 사용할지 (관리자용)
 }

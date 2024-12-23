@@ -7,9 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserCreateRequest {
-    private String username;
-    private String password;
-    private Role role;
-    private Long courseId;    // 학생인 경우 필요
-    private Long teacherId;   // 학생인 경우 필요
+    private String username;   // 사용자 이름/아이디
+    private String password;   // 비밀번호
+    private Role role;        // 역할(ADMIN/MANAGER/USER)
+    private Long courseId;    // 학생인 경우 속할 반 ID
+    private Long teacherId;   // 학생인 경우 담당 선생님 ID
 }

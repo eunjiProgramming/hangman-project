@@ -22,6 +22,7 @@ public class GameService {
     private final UserRepository userRepository;
     private final GameHistoryRepository gameHistoryRepository;
     private final CourseRepository courseRepository;
+    private final GameStatisticsService gameStatisticsService;
     private final Map<Long, GameSession> gameSessions = new HashMap<>();
 
     @Transactional
@@ -78,7 +79,7 @@ public class GameService {
     public GameStatisticsResponse getGameStatistics(String username) {
         User user = getUserAndValidate(username);
         List<GameHistory> histories = getHistoriesByUserRole(user);
-        return buildGameStatistics(histories, user.getRole());
+        return gameStatisticsService.buildGameStatistics(histories, user.getRole());
     }
 
     public List<GameHistoryResponse> getStudentGameHistoryByPeriod(
@@ -97,7 +98,7 @@ public class GameService {
         validateTeacherCourseAccess(teacher, courseId);
 
         List<GameHistory> histories = gameHistoryRepository.findByCourseId(courseId);
-        return buildGameStatistics(histories, Role.MANAGER);
+        return gameStatisticsService.buildGameStatistics(histories, Role.MANAGER);
     }
 
     public GameGuessResponse getCurrentGameStatus(String username, Long gameId) {
@@ -126,7 +127,7 @@ public class GameService {
                 .filter(h -> category.equals(h.getWord().getCategory()))
                 .collect(Collectors.toList());
 
-        return buildGameStatistics(histories, user.getRole());
+        return gameStatisticsService.buildGameStatistics(histories, user.getRole());
     }
 
     // Private helper methods
@@ -260,34 +261,6 @@ public class GameService {
                 .attempts(history.getAttempts())
                 .wrongLetters(history.getWrongLetters())
                 .playedAt(history.getPlayedAt())
-                .build();
-    }
-
-    private GameStatisticsResponse buildGameStatistics(List<GameHistory> histories, Role role) {
-        if (histories.isEmpty()) {
-            return GameStatisticsResponse.builder()
-                    .totalGames(0)
-                    .gamesWon(0)
-                    .gamesLost(0)
-                    .winRate(0.0)
-                    .averageAttempts(0.0)
-                    .build();
-        }
-
-        int totalGames = histories.size();
-        int gamesWon = (int) histories.stream().filter(GameHistory::getIsSuccess).count();
-        double winRate = (double) gamesWon / totalGames * 100;
-        double avgAttempts = histories.stream()
-                .mapToInt(GameHistory::getAttempts)
-                .average()
-                .orElse(0.0);
-
-        return GameStatisticsResponse.builder()
-                .totalGames(totalGames)
-                .gamesWon(gamesWon)
-                .gamesLost(totalGames - gamesWon)
-                .winRate(winRate)
-                .averageAttempts(avgAttempts)
                 .build();
     }
 }
