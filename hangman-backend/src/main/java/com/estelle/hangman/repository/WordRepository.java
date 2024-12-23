@@ -40,4 +40,13 @@ public interface WordRepository extends JpaRepository<Word, Long> {
     List<Word> findByCourseIdAndCategory(
             @Param("courseId") Long courseId,
             @Param("category") String category);
+
+    @Query("SELECT w FROM Word w WHERE " +
+            "(:keyword IS NULL OR LOWER(w.word) LIKE LOWER(CONCAT('%', :keyword, '%'))) AND " +
+            "(:category IS NULL OR w.category = :category) AND " +
+            "(:difficulty IS NULL OR w.difficulty = :difficulty)")
+    List<Word> searchWords(
+            @Param("keyword") String keyword,
+            @Param("category") String category,
+            @Param("difficulty") Integer difficulty);
 }

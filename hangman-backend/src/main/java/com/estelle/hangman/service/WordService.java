@@ -3,9 +3,7 @@ package com.estelle.hangman.service;
 import com.estelle.hangman.domain.Role;
 import com.estelle.hangman.domain.User;
 import com.estelle.hangman.domain.Word;
-import com.estelle.hangman.dto.WordCategoryResponse;
-import com.estelle.hangman.dto.WordResponse;
-import com.estelle.hangman.dto.WordWithCategoryResponse;
+import com.estelle.hangman.dto.*;
 import com.estelle.hangman.repository.CourseRepository;
 import com.estelle.hangman.repository.UserRepository;
 import com.estelle.hangman.repository.WordRepository;
@@ -98,6 +96,8 @@ public class WordService {
                 .difficulty(word.getDifficulty())
                 .courseName(word.getCourse().getName())
                 .teacherName(word.getTeacher().getUsername())
+                .createdAt(word.getCreatedAt())
+                .updatedAt(word.getUpdatedAt())
                 .build();
     }
 
@@ -108,9 +108,20 @@ public class WordService {
                 .orElse(0.0);
     }
 
-    // 기본적인 CRUD 메서드들도 추가
+
     @Transactional
-    public WordResponse createWord(Word word) {
+    public WordResponse createWord(WordCreateRequest request) {
+        Word word = new Word();
+        word.setWord(request.getWord().toUpperCase());
+        word.setCategory(request.getCategory());
+        word.setDifficulty(request.getDifficulty());
+
+        word.setTeacher(userRepository.findById(request.getTeacherId())
+                .orElseThrow(() -> new RuntimeException("선생님을 찾을 수 없습니다")));
+
+        word.setCourse(courseRepository.findById(request.getCourseId())
+                .orElseThrow(() -> new RuntimeException("반을 찾을 수 없습니다")));
+
         return convertToWordResponse(wordRepository.save(word));
     }
 
@@ -131,6 +142,36 @@ public class WordService {
                 .word(word.getWord())
                 .category(word.getCategory())
                 .difficulty(word.getDifficulty())
+                .courseName(word.getCourse().getName())
+                .teacherName(word.getTeacher().getUsername())
+                .createdAt(word.getCreatedAt())
+                .updatedAt(word.getUpdatedAt())
                 .build();
+    }
+
+    @Transactional
+    public WordResponse updateWord(Long id, WordUpdateRequest request) {
+        Word word = wordRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Word not found"));
+
+        if (request.getWord() != null) {
+            word.setWord(request.getWord().toUpperCase());
+        }
+        if (request.getCategory() != null) {
+            word.setCategory(request.getCategory());
+        }
+        if (request.getDifficulty() != null) {
+            word.setDifficulty(request.getDifficulty());
+        }
+
+        return convertToWordResponse(word);
+    }
+
+    public List<WordResponse> searchWords(
+            String keyword, String category, Integer difficulty) {
+        List<Word> words = wordRepository.searchWords(keyword, category, difficulty);
+        return words.stream()
+                .map(this::convertToWordResponse)
+                .collect(Collectors.toList());
     }
 }
