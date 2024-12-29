@@ -46,7 +46,8 @@ public class WordService {
                 .collect(Collectors.toList());
     }
 
-    public List<WordWithCategoryResponse> getWordsByCategory(
+    // WordWithCategoryResponse를 WordResponse로 변경
+    public List<WordResponse> getWordsByCategory(
             String category, Integer difficulty, String username) {
 
         User user = userRepository.findByUsername(username)
@@ -62,7 +63,7 @@ public class WordService {
         }
 
         return words.stream()
-                .map(this::convertToWordWithCategoryResponse)
+                .map(this::convertToWordResponse)  // convertToWordWithCategoryResponse 대신 convertToWordResponse 사용
                 .collect(Collectors.toList());
     }
 
@@ -88,18 +89,7 @@ public class WordService {
                 .collect(Collectors.toList());
     }
 
-    private WordWithCategoryResponse convertToWordWithCategoryResponse(Word word) {
-        return WordWithCategoryResponse.builder()
-                .id(word.getId())
-                .word(word.getWord())
-                .category(word.getCategory())
-                .difficulty(word.getDifficulty())
-                .courseName(word.getCourse().getName())
-                .teacherName(word.getTeacher().getUsername())
-                .createdAt(word.getCreatedAt())
-                .updatedAt(word.getUpdatedAt())
-                .build();
-    }
+    // convertToWordWithCategoryResponse 메소드 삭제
 
     private double calculateAverageDifficulty(List<Word> words) {
         return words.stream()
@@ -107,7 +97,6 @@ public class WordService {
                 .average()
                 .orElse(0.0);
     }
-
 
     @Transactional
     public WordResponse createWord(WordCreateRequest request) {
