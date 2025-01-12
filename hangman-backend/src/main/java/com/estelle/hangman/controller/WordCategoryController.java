@@ -30,7 +30,7 @@ public class WordCategoryController {
     }
 
     @GetMapping("/category/{category}")
-    public ResponseEntity<List<WordWithCategoryResponse>> getWordsByCategory(
+    public ResponseEntity<List<WordResponse>> getWordsByCategory(
             @PathVariable String category,
             @RequestParam(required = false) Integer difficulty,
             @AuthenticationPrincipal UserDetails userDetails) {
